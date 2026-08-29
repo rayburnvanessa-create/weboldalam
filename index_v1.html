@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rayburn Vanessa — Integrál szemléletű kísérés &amp; rendszerállítás</title>
+<meta name="description" content="Biztonságos, megengedő és ítéletmentes tér a belső utadhoz. Rayburn Vanessa integrál szemléletű egyéni kísérő és ICON integrál család- és rendszerállító.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #F8F3E0;
+    --cream-deep: #F1E9CE;
+    --paper: #FCF9EE;
+    --maroon: #5A2A1C;
+    --maroon-soft: #7C4530;
+    --rose: #C6A0A2;
+    --rose-deep: #B4838C;
+    --rose-pale: #EAD9D6;
+    --teal: #2E5457;
+    --teal-deep: #1F3B3E;
+    --gold: #C79862;
+    --gold-line: #CBA46E;
+    --blue: #A9C6CC;
+    --pink: #E7BCC6;
+    --ink: #3B3025;
+    --ink-soft: #6B5C4C;
+    --shadow: 0 20px 50px -25px rgba(90,42,28,0.35);
+    --radius-organic: 42% 58% 63% 37% / 41% 44% 56% 59%;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Jost', sans-serif;
+    font-weight:300;
+    line-height:1.7;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,h4{
+    font-family:'Cormorant Garamond', serif;
+    color:var(--maroon);
+    font-weight:600;
+    line-height:1.15;
+    margin:0 0 .5em;
+    letter-spacing:.01em;
+  }
+
+  p{margin:0 0 1em;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+
+  a:focus-visible,
+  button:focus-visible,
+  .nav-link:focus-visible{
+    outline: 2px solid var(--teal);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .eyebrow{
+    font-family:'Jost', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.28em;
+    font-size:.72rem;
+    color:var(--rose-deep);
+    font-weight:500;
+    display:inline-flex;
+    align-items:center;
+    gap:.6em;
+    margin-bottom:1em;
+  }
+  .eyebrow::before{
+    content:"";
+    width:26px; height:1px;
+    background:var(--gold);
+    display:inline-block;
+  }
+
+  .wrap{
+    max-width:1140px;
+    margin:0 auto;
+    padding:0 clamp(1.25rem, 4vw, 3rem);
+    position:relative;
+    z-index:2;
+  }
+
+  section{position:relative; overflow:hidden;}
+
+  /* ---------- BUTTONS ---------- */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:.55em;
+    padding:.95em 2em;
+    border-radius:999px;
+    font-family:'Jost', sans-serif;
+    font-size:.95rem;
+    letter-spacing:.03em;
+    font-weight:500;
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:transform .35s ease, box-shadow .35s ease, background .35s ease, color .35s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{
+    background:var(--maroon);
+    color:var(--paper);
+    box-shadow: var(--shadow);
+  }
+  .btn-primary:hover{ transform:translateY(-2px); background:#4a2115; }
+  .btn-outline{
+    background:transparent;
+    border-color:var(--maroon);
+    color:var(--maroon);
+  }
+  .btn-outline:hover{ background:var(--maroon); color:var(--paper); transform:translateY(-2px); }
+  .btn svg{width:15px; height:15px; flex-shrink:0;}
+
+  /* ---------- DECORATIVE SVG LEAVES / BLOBS ---------- */
+  .deco{position:absolute; z-index:0; pointer-events:none;}
+  .blob{
+    position:absolute;
+    border-radius:var(--radius-organic);
+    filter: blur(0.5px);
+    opacity:.55;
+    z-index:0;
+  }
+
+  .leaf-line{ fill:none; stroke:var(--gold-line); stroke-width:1.1; stroke-linecap:round; stroke-linejoin:round; }
+  .leaf-fill{ fill:var(--rose); opacity:.75; }
+  .leaf-fill-2{ fill:var(--rose-pale); opacity:.9; }
+
+  /* ---------- NAV ---------- */
+  header.site-nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(248,243,224,0.88);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid rgba(90,42,28,0.08);
+  }
+  .nav-inner{
+    max-width:1140px; margin:0 auto;
+    padding:1rem clamp(1.25rem, 4vw, 3rem);
+    display:flex; align-items:center; justify-content:space-between;
+    gap:1rem;
+  }
+  .brand{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.4rem;
+    color:var(--maroon);
+    font-weight:600;
+    letter-spacing:.02em;
+  }
+  .brand span{ color:var(--rose-deep); font-style:italic; font-weight:500;}
+  nav.links{ display:flex; align-items:center; gap:2.1rem;}
+  .nav-link{
+    font-size:.88rem; letter-spacing:.03em; color:var(--ink-soft);
+    position:relative; padding:.2em 0;
+    transition:color .25s ease;
+  }
+  .nav-link::after{
+    content:""; position:absolute; left:0; bottom:-2px; width:0; height:1px;
+    background:var(--rose-deep); transition:width .3s ease;
+  }
+  .nav-link:hover{ color:var(--maroon); }
+  .nav-link:hover::after{ width:100%; }
+  .nav-cta{ display:none; }
+  @media(min-width:880px){ .nav-cta{ display:inline-flex; } }
+  .menu-toggle{
+    display:none; background:none; border:none; cursor:pointer; padding:.4rem;
+    flex-direction:column; gap:5px;
+  }
+  .menu-toggle span{ width:24px; height:1.5px; background:var(--maroon); display:block; }
+  @media(max-width:879px){
+    nav.links{
+      position:fixed; inset:0 0 auto auto; top:64px; right:0;
+      background:var(--paper);
+      flex-direction:column; align-items:flex-start;
+      width:min(78vw,320px); height:calc(100vh - 64px);
+      padding:2.5rem 2rem; gap:1.6rem;
+      transform:translateX(100%); transition:transform .4s ease;
+      box-shadow:-10px 0 40px rgba(90,42,28,0.15);
+    }
+    nav.links.open{ transform:translateX(0); }
+    .nav-link{ font-size:1.05rem; }
+    .menu-toggle{ display:flex; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding: clamp(3.5rem, 8vw, 7rem) 0 clamp(4rem, 9vw, 8rem);
+    background:
+      radial-gradient(circle at 14% 18%, rgba(198,160,162,0.28), transparent 40%),
+      var(--cream);
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items:center;
+  }
+  @media(max-width:900px){ .hero .wrap{ grid-template-columns:1fr; } }
+
+  .hero h1{
+    font-size: clamp(2.5rem, 5vw, 3.7rem);
+    font-style:normal;
+  }
+  .hero h1 em{ font-style:italic; color:var(--rose-deep); font-weight:500; }
+  .hero .lede{
+    font-size:1.14rem;
+    color:var(--ink-soft);
+    max-width:46ch;
+    margin-bottom:2em;
+  }
+  .hero .lede strong{ color:var(--maroon); font-weight:500; }
+  .hero-ctas{ display:flex; gap:1rem; flex-wrap:wrap; }
+
+  .hero-art{
+    position:relative;
+    aspect-ratio: 1/1.05;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hero-frame{
+    position:relative;
+    width:82%; aspect-ratio:1/1.12;
+    border-radius: 58% 42% 46% 54% / 55% 48% 52% 45%;
+    background: linear-gradient(155deg, var(--rose-pale), var(--paper) 60%);
+    border:1px solid rgba(199,152,98,0.4);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: var(--shadow);
+    overflow:hidden;
+  }
+  .hero-frame img{
+    width:100%; height:100%;
+    object-fit:cover;
+    object-position:center 20%;
+    border-radius: 58% 42% 46% 54% / 55% 48% 52% 45%;
+  }
+  .hero-frame .initial{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:6.5rem;
+    color:var(--maroon);
+    opacity:.85;
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section-head{
+    max-width:640px;
+    margin: 0 auto 3rem;
+    text-align:center;
+  }
+  .section-head.left{ text-align:left; margin:0 0 3rem; }
+  .section-head h2{ font-size:clamp(2.1rem, 4vw, 2.7rem); }
+  .section-head p{ color:var(--ink-soft); font-size:1.04rem; }
+
+  section{ padding: clamp(4rem, 8vw, 6.5rem) 0; }
+  .alt-bg{ background:var(--cream-deep); }
+
+  /* ---------- INTRO / MIBEN KÍSÉRLEK ---------- */
+  .intro-grid{
+    display:grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+    align-items:flex-start;
+  }
+  @media(max-width:880px){ .intro-grid{ grid-template-columns:1fr; } }
+
+  .promise-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1.4rem;}
+  .promise-list li{
+    display:flex; gap:1rem; align-items:flex-start;
+    font-size:1.05rem;
+    color:var(--ink);
+    padding-bottom:1.4rem;
+    border-bottom:1px solid rgba(90,42,28,0.1);
+  }
+  .promise-list li:last-child{ border-bottom:none; padding-bottom:0; }
+  .promise-list .mark{
+    flex-shrink:0; width:30px; height:30px; border-radius:50%;
+    background:var(--rose-pale); color:var(--maroon-soft);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:600;
+    margin-top:.1em;
+  }
+
+  /* ---------- TOPIC CARDS ---------- */
+  .topic-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1.4rem;
+  }
+  @media(max-width:900px){ .topic-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:600px){ .topic-grid{ grid-template-columns:1fr; } }
+
+  .topic-card{
+    background:var(--paper);
+    border:1px solid rgba(199,152,98,0.28);
+    border-radius: 26px 26px 26px 4px;
+    padding:1.9rem 1.7rem;
+    transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  }
+  .topic-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow); border-color:var(--rose-deep); }
+  .topic-card h3{ font-size:1.28rem; margin-bottom:.4em; }
+  .topic-card p{ color:var(--ink-soft); font-size:.96rem; margin:0; }
+
+  /* ---------- PRESENCE PILLARS ---------- */
+  .pillars{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:2.4rem;
+    position:relative;
+  }
+  @media(max-width:880px){ .pillars{ grid-template-columns:1fr; gap:2.6rem; } }
+  .pillar{ text-align:center; padding:0 .5rem; }
+  .pillar .num{
+    font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:2.6rem; color:var(--rose-deep); display:block; margin-bottom:.2em;
+  }
+  .pillar h3{ font-size:1.35rem; }
+  .pillar p{ color:var(--ink-soft); font-size:.98rem; }
+
+  /* ---------- ABOUT ---------- */
+  .about-layout{
+    display:grid;
+    grid-template-columns: .85fr 1.15fr;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+  }
+  @media(max-width:900px){ .about-layout{ grid-template-columns:1fr; } }
+
+  .about-portrait{
+    position:relative;
+    border-radius: 46% 54% 38% 62% / 60% 44% 56% 40%;
+    background: linear-gradient(160deg, var(--teal) 0%, var(--teal-deep) 100%);
+    aspect-ratio: .85/1;
+    display:flex; align-items:flex-end; justify-content:center;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+  }
+  .about-portrait .tag{
+    color:var(--paper);
+    text-align:center;
+    padding:2.2rem 1.5rem;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1.3rem;
+    line-height:1.4;
+  }
+
+  .about-block{ margin-bottom:2.3rem; }
+  .about-block:last-child{ margin-bottom:0; }
+  .about-block h3{ font-size:1.5rem; margin-bottom:.5em; }
+  .about-block p{ color:var(--ink-soft); }
+
+  .mentors{
+    margin-top:2.3rem;
+    padding-top:2rem;
+    border-top:1px solid rgba(90,42,28,0.12);
+  }
+  .mentors .eyebrow{ margin-bottom:.8em; }
+  .mentor-names{
+    display:flex; flex-wrap:wrap; gap:.5rem .6rem;
+    font-family:'Cormorant Garamond', serif; font-size:1.12rem; color:var(--maroon-soft);
+  }
+  .mentor-names span:not(:last-child)::after{ content:"·"; margin-left:.6rem; color:var(--rose-deep); }
+
+  /* ---------- SERVICES ---------- */
+  .service-card{
+    background:var(--paper);
+    border:1px solid rgba(199,152,98,0.3);
+    border-radius:28px;
+    padding: clamp(1.8rem, 3vw, 2.6rem);
+    margin-bottom:1.6rem;
+    display:grid;
+    grid-template-columns: 1fr auto;
+    gap:1.5rem 2.5rem;
+    align-items:start;
+  }
+  @media(max-width:700px){ .service-card{ grid-template-columns:1fr; } }
+  .service-card .letter{
+    font-family:'Cormorant Garamond', serif; font-style:italic; color:var(--rose-deep);
+    font-size:1rem; letter-spacing:.05em; margin-bottom:.6em; display:block;
+  }
+  .service-card h3{ font-size:1.65rem; margin-bottom:.5em; }
+  .service-card p{ color:var(--ink-soft); font-size:.99rem; }
+  .service-card .price-box{
+    text-align:center;
+    background:var(--cream-deep);
+    border-radius:18px;
+    padding:1.3rem 1.6rem;
+    min-width:160px;
+    align-self:center;
+  }
+  .price-box .amount{ font-family:'Cormorant Garamond', serif; font-size:1.9rem; color:var(--maroon); font-weight:600; display:block; }
+  .price-box .duration{ font-size:.82rem; color:var(--ink-soft); letter-spacing:.03em; }
+
+  .sub-steps{ list-style:none; margin:1.1rem 0 0; padding:0; display:flex; flex-direction:column; gap:.7rem; }
+  .sub-steps li{ font-size:.95rem; color:var(--ink); padding-left:1.4em; position:relative; }
+  .sub-steps li::before{
+    content:""; position:absolute; left:0; top:.5em; width:6px; height:6px; border-radius:50%;
+    background:var(--gold);
+  }
+  .sub-steps li strong{ color:var(--maroon-soft); font-weight:500; }
+
+  .note-box{
+    margin-top:1.3rem;
+    background:rgba(41,84,87,0.07);
+    border-left:3px solid var(--teal);
+    border-radius:0 14px 14px 0;
+    padding:1rem 1.3rem;
+    font-size:.92rem;
+    color:var(--ink-soft);
+  }
+
+  .group-options{
+    display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; margin-top:1.3rem;
+  }
+  @media(max-width:600px){ .group-options{ grid-template-columns:1fr; } }
+  .group-opt{
+    background:var(--cream-deep); border-radius:18px; padding:1.4rem 1.5rem;
+  }
+  .group-opt h4{ font-family:'Cormorant Garamond', serif; color:var(--maroon); font-size:1.2rem; margin:0 0 .4em; }
+  .group-opt p{ font-size:.92rem; color:var(--ink-soft); margin:0 0 .5em; }
+  .group-opt .fee{ font-size:.88rem; color:var(--maroon-soft); font-weight:500; }
+
+  /* ---------- COMING SOON ---------- */
+  .soon-panel{
+    position:relative;
+    background: linear-gradient(135deg, var(--teal-deep), var(--teal));
+    border-radius:36px;
+    padding: clamp(2.5rem, 6vw, 4rem);
+    color:var(--paper);
+    overflow:hidden;
+  }
+  .soon-panel .eyebrow{ color:var(--pink); }
+  .soon-panel .eyebrow::before{ background:var(--pink); }
+  .soon-panel h2{ color:var(--paper); }
+  .soon-panel p{ color:rgba(248,243,224,0.82); }
+  .soon-focus{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; margin-top:2rem;
+  }
+  @media(max-width:880px){ .soon-focus{ grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:520px){ .soon-focus{ grid-template-columns:1fr; } }
+  .soon-focus .fitem{
+    background:rgba(248,243,224,0.08);
+    border:1px solid rgba(248,243,224,0.18);
+    border-radius:16px;
+    padding:1.2rem 1.1rem;
+  }
+  .soon-focus h4{ font-family:'Cormorant Garamond', serif; font-size:1.15rem; color:var(--pink); margin:0 0 .4em; }
+  .soon-focus p{ font-size:.88rem; margin:0; color:rgba(248,243,224,0.75); }
+  .soon-meta{
+    margin-top:2rem; padding-top:1.6rem; border-top:1px solid rgba(248,243,224,0.2);
+    font-size:.92rem; color:rgba(248,243,224,0.85);
+  }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testi-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1.6rem;
+  }
+  @media(max-width:900px){ .testi-grid{ grid-template-columns:1fr; } }
+  .testi-card{
+    background:var(--paper);
+    border-radius:26px;
+    padding:2.1rem 1.9rem;
+    border:1px solid rgba(199,152,98,0.25);
+    position:relative;
+  }
+  .testi-card .quote-mark{
+    font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:3.2rem; color:var(--rose-pale); line-height:1; display:block; margin-bottom:.1em;
+  }
+  .testi-card p{ font-size:.98rem; color:var(--ink); }
+  .testi-card .who{ margin-top:1.2rem; font-size:.82rem; letter-spacing:.05em; color:var(--rose-deep); text-transform:uppercase; }
+
+  /* ---------- POLICY TABLE ---------- */
+  .policy-table{
+    width:100%; border-collapse:collapse;
+    background:var(--paper);
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    border:2px solid var(--gold);
+  }
+  .policy-table th, .policy-table td{
+    padding:1.05rem 1.4rem;
+    text-align:left;
+    font-size:.95rem;
+  }
+  .policy-table thead th{
+    background:var(--maroon);
+    color:var(--paper);
+    font-family:'Jost',sans-serif;
+    letter-spacing:.04em;
+    font-weight:500;
+    font-size:.82rem;
+    text-transform:uppercase;
+  }
+  .policy-table tbody tr:nth-child(even){ background:var(--cream-deep); }
+  .policy-table tbody td:last-child{ font-family:'Cormorant Garamond', serif; font-weight:600; color:var(--maroon-soft); font-size:1.05rem; }
+  .policy-table-wrap{ overflow-x:auto; }
+
+  .cancel-notes{
+    margin-top:1.8rem;
+    display:flex; flex-direction:column; gap:.8rem;
+  }
+  .cancel-notes .item{
+    display:flex; gap:.8rem; align-items:flex-start; font-size:.93rem; color:var(--ink-soft);
+  }
+  .cancel-notes .item svg{ flex-shrink:0; width:18px; height:18px; margin-top:.2em; color:var(--teal); }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  .contact-panel{
+    background: var(--maroon);
+    color:var(--paper);
+    border-radius:40px;
+    padding: clamp(2.6rem, 6vw, 4.5rem);
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .contact-panel h2{ color:var(--paper); }
+  .contact-panel .lede{ color:rgba(248,243,224,0.82); max-width:52ch; margin:0 auto 2rem; }
+  .contact-links{
+    display:flex; justify-content:center; gap:2.2rem; flex-wrap:wrap;
+    margin-top:2.2rem; padding-top:2rem; border-top:1px solid rgba(248,243,224,0.18);
+  }
+  .contact-links a{
+    display:flex; align-items:center; gap:.6em; font-size:.95rem; color:var(--paper);
+  }
+  .contact-links a svg{ width:18px; height:18px; color:var(--rose-pale); }
+  .contact-links a:hover{ color:var(--pink); }
+
+  footer.site-footer{
+    text-align:center; padding:2.4rem 1.5rem;
+    font-size:.82rem; color:var(--ink-soft);
+  }
+  footer.site-footer .fname{ font-family:'Cormorant Garamond', serif; color:var(--maroon); font-size:1.1rem; display:block; margin-bottom:.3em; }
+
+  /* ---------- REVEAL ANIM ---------- */
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  ::selection{ background:var(--rose); color:var(--paper); }
+</style>
+</head>
+<body>
+
+<!-- ============ DECORATIVE DEFS (reused leaf/branch motifs) ============ -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <g id="leaf-cluster">
+      <path class="leaf-line" d="M2 90 C 10 60, 8 30, 26 4"/>
+      <path class="leaf-fill" d="M14 40c10-16 28-18 34-8 4 7-2 18-14 22-12 4-24-4-20-14z"/>
+      <path class="leaf-fill-2" d="M6 66c8-13 23-15 28-6 3 6-2 15-12 18-10 3-20-3-16-12z"/>
+      <path class="leaf-line" d="M20 10c8 4 12 12 10 18"/>
+    </g>
+    <g id="branch-thin">
+      <path class="leaf-line" d="M4 4C 30 40, 20 90, 46 130"/>
+      <path class="leaf-line" d="M16 46c14-6 26 0 30 10"/>
+      <path class="leaf-line" d="M22 84c-12 2-22 10-24 20"/>
+      <path class="leaf-fill-2" d="M40 52c8-10 20-9 24-1 3 6-3 13-11 15-8 2-16-6-13-14z"/>
+      <path class="leaf-fill-2" d="M-6 100c8-10 20-9 24-1 3 6-3 13-11 15-8 2-16-6-13-14z"/>
+    </g>
+  </defs>
+</svg>
+
+<!-- ============ NAV ============ -->
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">Rayburn <span>Vanessa</span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menü megnyitása" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="links" id="navLinks">
+      <a class="nav-link" href="#rolam">Rólam</a>
+      <a class="nav-link" href="#kiserlek">Miben kísérlek</a>
+      <a class="nav-link" href="#szolgaltatasok">Szolgáltatások</a>
+      <a class="nav-link" href="#velemenyek">Vélemények</a>
+      <a class="nav-link" href="#kapcsolat">Kapcsolat</a>
+      <a class="btn btn-primary nav-cta" href="#kapcsolat">Időpontot foglalok</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="deco blob" style="width:340px; height:340px; background:var(--blue); opacity:.35; top:-90px; left:-120px;"></div>
+  <div class="deco blob" style="width:260px; height:260px; background:var(--pink); opacity:.3; bottom:-80px; right:-60px;"></div>
+  <svg class="deco" width="140" height="220" style="top:6%; left:2%;" viewBox="0 0 60 140"><use href="#branch-thin"/></svg>
+  <svg class="deco" width="120" height="180" style="bottom:4%; right:4%; transform:scaleX(-1);" viewBox="0 0 60 140"><use href="#leaf-cluster"/></svg>
+
+  <div class="wrap">
+    <div class="hero-copy">
+      <p class="eyebrow">Integrál kísérés &amp; rendszerállítás</p>
+      <h1>Biztonságos, megengedő és <em>ítéletmentes</em> tér a belső utadhoz.</h1>
+      <p class="lede"><strong>Rayburn Vanessa</strong> vagyok — integrál szemléletű egyéni kísérő, ICON integrál család- és rendszerállító, drámapedagógiai szemléletű segítő.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#kapcsolat">
+          Kapcsolódjunk
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-outline" href="#szolgaltatasok">Időpontot foglalok</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="hero-frame">
+        <img src="https://raw.githubusercontent.com/rayburnvanessa-create/weboldalam/main/profil-img.png" alt="Rayburn Vanessa portré" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MIBEN KÍSÉRLEK ============ -->
+<section id="kiserlek">
+  <svg class="deco" width="110" height="170" style="top:8%; right:1%;" viewBox="0 0 60 140"><use href="#leaf-cluster"/></svg>
+  <div class="wrap">
+    <div class="intro-grid reveal">
+      <div>
+        <p class="eyebrow">Nyitó gondolatok</p>
+        <h2>Miben kísérlek?</h2>
+        <p style="color:var(--ink-soft); font-size:1.05rem;">Szeretnélek hozzásegíteni ahhoz, hogy egy teljesebb, szabadabb önmagad lehess — a gyógyulásoddal szolgálva önmagad, és ezáltal minden érző lényt. Akár párkapcsolati nehézséggel, transzgenerációs teherrel vagy egy nehezen integrálható spirituális élménnyel érkezel, a közös munkánk során abban kísérlek, hogy:</p>
+      </div>
+      <ul class="promise-list">
+        <li><span class="mark">1</span><span>Oldódjon benned a félelem a saját vagy mások intenzív érzelmeitől.</span></li>
+        <li><span class="mark">2</span><span>Szeretetteljes, gyengéd kapcsolatot alakíts ki magaddal.</span></li>
+        <li><span class="mark">3</span><span>Ráláss a valódi igényeidre — és merd elfogadni őket a „jó gyerek” szerepének megfelelési kényszere helyett.</span></li>
+        <li><span class="mark">4</span><span>Képessé válj megadni magadnak azt, amit eddig kívülről vártál — átlépve a felnőtt gondoskodásba.</span></li>
+        <li><span class="mark">5</span><span>Teljességből és ne hiányból kapcsolódj másokhoz.</span></li>
+        <li><span class="mark">6</span><span>Megtanuld újra-nevelni magad, megértéssel és türelemmel fordulva belső részeid felé.</span></li>
+        <li><span class="mark">7</span><span>Belső és külső rendet teremts, hogy végre igazán a saját életedet élhesd.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MIVEL FORDULHATSZ HOZZÁM ============ -->
+<section class="alt-bg">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow" style="justify-content:center;">Gyakori témák</p>
+      <h2>Mivel fordulhatsz hozzám?</h2>
+      <p>Akkor is érdemes megkeresned, ha már van egy konkrét témád, és akkor is, ha egyelőre csak annyit érzel: valami nehéz, szűk vagy ismétlődik az életedben.</p>
+    </div>
+    <div class="topic-grid reveal">
+      <div class="topic-card">
+        <h3>Párkapcsolati mintázatok</h3>
+        <p>Újra és újra hasonló dinamikákba keveredsz, nehezen találod a biztonságos kapcsolódást, vagy elvész az egyensúly a te igényeid és a másiké között.</p>
+      </div>
+      <div class="topic-card">
+        <h3>Transzgenerációs terhek</h3>
+        <p>Olyan szorongásokat vagy belső tilalmakat hordozol, amelyek nem a saját élethelyzetedből, hanem a családi rendszered mélyebb rétegeiből erednek.</p>
+      </div>
+      <div class="topic-card">
+        <h3>A „jó gyerek” szerep kimerültsége</h3>
+        <p>Nehezen mondasz nemet, megfelelési kényszerrel küzdesz, vagy felnőttként is mások elvárásait teljesíted a saját életed rovására.</p>
+      </div>
+      <div class="topic-card">
+        <h3>Érzelmi elárasztottság</h3>
+        <p>Nehezen bírod el az intenzív érzéseket, félsz a dühöd megélésétől, vagy épp ellenkezőleg: elszigetelődtél a saját belső világodtól.</p>
+      </div>
+      <div class="topic-card">
+        <h3>Önértékelési hullámvölgyek</h3>
+        <p>Kívülről várod a megerősítést, a biztonságot vagy a szeretetet, és szeretnél megtanulni felnőttként gondoskodni magadról.</p>
+      </div>
+      <div class="topic-card">
+        <h3>Integrálatlan spirituális élmények</h3>
+        <p>Mély, transzperszonális tapasztalásod volt, amivel a hétköznapokban nehéz mit kezdened, és földelt, megértő térre van szükséged a feldolgozáshoz.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ITT ÉS MOST ============ -->
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow" style="justify-content:center;">Közös munkánk módja</p>
+      <h2>Hogyan vagyok jelen veled az „itt és most”-ban?</h2>
+      <p>Amikor velem dolgozol, a közös munkánk magja az élő, finom jelenlét. Nem elméleteket alkalmazok rád, és nem késztetlek semmire — a jelen pillanat biztonságában vagyunk együtt.</p>
+    </div>
+    <div class="pillars reveal">
+      <div class="pillar">
+        <span class="num">I.</span>
+        <h3>Finom megtartás</h3>
+        <p>Olyan belső biztonságot teremtek számodra, amelyben megmered tenni a következő lépéseket — védett térben, ahol nem kell jól teljesítened.</p>
+      </div>
+      <div class="pillar">
+        <span class="num">II.</span>
+        <h3>Lényeglátás, tiszta tükör</h3>
+        <p>Képes vagyok kimondani és láttatni azt, ami van — finom érzékenységgel, gyengéden, de konfrontálva a vakfoltokat.</p>
+      </div>
+      <div class="pillar">
+        <span class="num">III.</span>
+        <h3>Új távlatok, benned lévő erő</h3>
+        <p>Nemcsak a nehézséget látjuk meg együtt, hanem a benned rejlő potenciált is — hogy valódi választásod lehessen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RÓLAM ============ -->
+<section class="alt-bg" id="rolam">
+  <svg class="deco" width="130" height="200" style="bottom:2%; left:0%;" viewBox="0 0 60 140"><use href="#branch-thin"/></svg>
+  <div class="wrap">
+    <div class="section-head left reveal">
+      <p class="eyebrow">Rólam és a küldetésem</p>
+      <h2>Az utam a mintha-világtól a belső rendig</h2>
+    </div>
+    <div class="about-layout reveal">
+      <div class="about-portrait">
+        <div class="tag">„Valódi, mély változást akkor tudunk indítani, ha megtaláljuk a saját belső rendünket.”</div>
+      </div>
+      <div>
+        <div class="about-block">
+          <h3>Gyökerek, drámapedagógia és a rendszerszemlélet</h3>
+          <p>A pályámat drámapedagógusként és irodalomtanárként kezdtem. Lenyűgözött a játék felszabadító ereje: az a biztonságos mintha-világ, ahol szerepeket lehet felvenni és kipróbálni — olyanokat is, amik tőlünk távol állnak, és olyanokat is, amik nagyon közeliek. Szerettem, ahogy a hétköznapi események mély érzelmi fókuszt kaptak, és hogy egyetlen történésre sokféle szempontból tudtunk közösen ránézni.</p>
+          <p>Amikor halmozottan hátrányos helyzetű gyerekekkel dolgoztam, mélyen beleláttam abba, hogy a nehézségek mögött szinte mindig szerteágazó, rendszerszintű mintázatok húzódnak — a társadalmi keretekben és a családi struktúrákban egyaránt. Rájöttem, hogy valódi, mély változást akkor tudok indítani, ha az egyéneket kísérem a saját belső rendjük megtalálásában. Így köteleződtem el az integrál szemléletű egyéni kísérés és az ICON integrál család- és rendszerállítás mellett.</p>
+        </div>
+        <div class="about-block">
+          <h3>Spirituális út és önismereti mélyülés</h3>
+          <p>A saját utamon a korai felnőtté válás éveit spirituális kereséssel és avatódásokkal telt időszak kísérte. Bár ezek mély élményeket adtak, a valódi terápiás megdolgozásom és földelésem 2020-ban, édesapám halálakor indult el. Ekkor született meg bennem az az erő, hogy szembenézzek a hiányaimmal és elinduljak a gyógyulás útján.</p>
+          <p>Elkezdtem az Integrál Akadémiát, és ezzel párhuzamosan az egyéni munkát Parádi Józseffel. Jóska szellemiségét ma is a szívemben őrzöm és munkámban képviselem: az ő átható, mély szeretete és elfogadása tanított meg arra, hogyan kezdjem el megszeretni önmagam.</p>
+        </div>
+        <div class="mentors">
+          <p class="eyebrow">Akiktől a szakmát és az alázatot tanultam</p>
+          <div class="mentor-names">
+            <span>Parádi József</span><span>Varga Eszter</span><span>Anucz Mónika</span><span>Greguska Judit</span><span>Kemény Péter</span><span>Bedő Nóra</span><span>Gánti Bence</span><span>Vizinger Erzsébet</span><span>CsTóth Judit</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SZOLGÁLTATÁSOK ============ -->
+<section id="szolgaltatasok">
+  <svg class="deco" width="110" height="170" style="top:4%; right:2%;" viewBox="0 0 60 140"><use href="#leaf-cluster"/></svg>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow" style="justify-content:center;">Szolgáltatások és keretek</p>
+      <h2>Hogyan dolgozhatunk együtt?</h2>
+      <p>Válaszd ki az utad — egyéni kíséréstől a mély, kétszemélyes állításon át a csoportos térig.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="service-card">
+        <div>
+          <span class="letter">A.</span>
+          <h3>Egyéni kísérés — integrál szemléletben</h3>
+          <p>Az egyéni ülések során biztonságos, ítéletmentes térben dolgozunk a hozott témáddal. Az integrál szemlélet segítségével nemcsak a felszíni tünetekre, hanem a lélek teljes fejlődési ívére és mélyebb összefüggéseire is rálátunk. Gyengéd, de lényeglátó kíséréssel tartalak abban, hogy elbírhatóvá váljon az, ami eddig nehéz volt, és új választási lehetőségeket találj abban, amiben szeretnél.</p>
+        </div>
+        <div class="price-box">
+          <span class="amount">20.000 Ft</span>
+          <span class="duration">60 perc / alkalom</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div>
+          <span class="letter">B.</span>
+          <h3>Egyéni integrál család- és rendszerállítás</h3>
+          <p>Az egyéni állítás egy mély, kétszemélyes folyamat:</p>
+          <ul class="sub-steps">
+            <li><strong>Feltáró beszélgetés (~60 perc):</strong> Átbeszéljük a hozott témádat személyes és transzgenerációs szinten, megfogalmazva a pontos célt.</li>
+            <li><strong>Fedett állítás kövekkel (~60 perc):</strong> A gondolkodás és a szándékos irányítás háttérbe szorul, így tisztán megmutatkoznak a rejtett családi dinamikák. Oldómondatokkal, meghajlással és a tisztelet megadásával állítjuk helyre a rendet.</li>
+          </ul>
+          <div class="note-box">Gyakorlati jótanács: az állítást megelőző napokban érdemes figyelned az álmaidat, érzéseidet — a változás gyakran már ekkor elindul benned.<br><br>Fontos tudnivaló: az állítás mély rétegeket mozgat meg. Fontos, hogy legyen az életedben olyan segítő vagy kísérő, akivel az itt felszínre kerülő érzelmeket feldolgozhatod. Ha jelenleg nincs ilyen kísérőd, az állítást követően egyéni ülések keretében van lehetőségünk a közös munkára.</div>
+        </div>
+        <div class="price-box">
+          <span class="amount">40.000 Ft</span>
+          <span class="duration">120 perc (2 óra)</span>
+        </div>
+      </div>
+
+      <div class="service-card" style="grid-template-columns:1fr;">
+        <div>
+          <span class="letter">C.</span>
+          <h3>Csoportos integrál családállítás</h3>
+          <p>Az integrál családállítás abban tér el a hagyományostól, hogy több önismereti módszertant ötvöz, és nagyobb szabadságot ad a térben jelen lévő képviselőknek. Nem a vezető utasítja őket pozíciókba, hanem a képviselők saját belső mozdulataikra és érzeteikre figyelve kapcsolódnak a rendszerhez.</p>
+          <div class="group-options">
+            <div class="group-opt">
+              <h4>Állítóként (saját folyamat)</h4>
+              <p>A saját témáddal dolgozunk a csoport megtartó terében, kb. 1,5 óra / állítás. Villámállításra is van lehetőség, ha rövidebb témára szeretnél csak rálátni (díja egyedi megállapodás szerint).</p>
+              <span class="fee">45.000 – 50.000 Ft időponttól / helyszíntől függően</span>
+            </div>
+            <div class="group-opt">
+              <h4>Képviselőként / segítőként</h4>
+              <p>Ha még nem voltál nálam, vagy ismerkednél a módszerrel, elsőre a képviselői jelenlétet ajánlom — a képviselőket szinte mindig olyan szerepekbe választják be, amelyek pontos tükröt tartanak saját életük aktuális témáiról.</p>
+              <span class="fee">10.000 Ft / alkalom</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HAMAROSAN ============ -->
+<section class="alt-bg">
+  <div class="wrap">
+    <div class="soon-panel reveal">
+      <svg class="deco" width="120" height="190" style="top:-10%; right:0%; opacity:.5;" viewBox="0 0 60 140"><use href="#leaf-cluster"/></svg>
+      <p class="eyebrow">Készülő csoport · hamarosan</p>
+      <h2>Tudatos / önismereti színjátszó</h2>
+      <p style="max-width:60ch;">Szerepeink megismerése a mintha-világ biztonságában. Egy olyan csoportos önismereti tér előkészítésén dolgozom, ahol a drámapedagógia, a rendszerállítás és az integrál pszichológia találkozik az improvizációval.</p>
+      <div class="soon-focus">
+        <div class="fitem">
+          <h4>Itt és most jelenlét</h4>
+          <p>Hogyan lehet lassítani azt a tudatmozdulatot, ahogyan felveszel egy szerepet?</p>
+        </div>
+        <div class="fitem">
+          <h4>Testbe érkezés</h4>
+          <p>Kapcsolódás a pillanatnyi érzetekhez — melyik szerepet könnyű, és melyik a legnehezebb eljátszanod?</p>
+        </div>
+        <div class="fitem">
+          <h4>Archetípusok és mesék</h4>
+          <p>Belső történeteink kibontása és megdolgozása.</p>
+        </div>
+        <div class="fitem">
+          <h4>Énhatárok, szenzoros érzékelés</h4>
+          <p>A Wilber-i tudatszintekre épített drámajátékok és gyakorlatok.</p>
+        </div>
+      </div>
+      <div class="soon-meta">Keretek (tervezet): szerdánként 2,5–3 órás alkalmak. Ráhangolódás után jelenetek építése, szerepben történő és csoportos megosztások visszajelzéssel.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VÉLEMÉNYEK ============ -->
+<section id="velemenyek">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow" style="justify-content:center;">Kliensek mondták</p>
+      <h2>Amit a közös munkáról megosztottak</h2>
+    </div>
+    <div class="testi-grid reveal">
+      <div class="testi-card">
+        <span class="quote-mark">“</span>
+        <p>Szívből ajánlom Vanessát, mint egyéni terapeutát. A vele való beszélgetések során voltam képes olyan egyedül-levő, gyámoltalan, és nagyon érzékeny belső helyeimhez érni, mint korábban még soha. Ott olyan megtartást kaptam tőle, amiben képes voltam ezt a helyet és benne magamat átölelni, és átérezni, hogy úgy vagyok szerethető, ahogy létezem. Ez az, amitől gyógyul a lelkem.</p>
+        <div class="who">Szeretetteljes megtartás</div>
+      </div>
+      <div class="testi-card">
+        <span class="quote-mark">“</span>
+        <p>Vanessa lényeglátása, ítéletmentes konfrontálása, a tudatszintekről és az emberi lélek természetéről való értő tudása olyan tükröt tart, ami megmutatja és kimondja, ami van. Mindezt olyan érzékenységgel teszi, hogy elbírható és befogadható legyen. Segít látni a bennem lévő erőt és potenciált.</p>
+        <div class="who">Lényeglátás és valódi távlatok</div>
+      </div>
+      <div class="testi-card">
+        <span class="quote-mark">“</span>
+        <p>Olyan fajta jelenlétet és szakmai érzékenységet tapasztalok nála, amellyel olyan rétegekre is rálátok, amelyekhez egyedül még nem férnék hozzá. Mindezt finom megtartással és ítéletmentes jelenléttel teszi, olyan belső biztonságot teremtve, amelyben megmerem tenni a következő lépéseket.</p>
+        <div class="who">Belső biztonság a lépésekhez</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HÁZIREND ============ -->
+<section class="alt-bg">
+  <div class="wrap">
+    <div class="section-head left reveal">
+      <p class="eyebrow">Foglalási szabályzat</p>
+      <h2>Házirend és lemondási feltételek</h2>
+    </div>
+    <div class="policy-table-wrap reveal">
+      <table class="policy-table">
+        <thead>
+          <tr><th>Szolgáltatás</th><th>Időtartam</th><th>Ár</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Egyéni kísérés</td><td>60 perc</td><td>20.000 Ft</td></tr>
+          <tr><td>Egyéni állítás</td><td>120 perc</td><td>40.000 Ft</td></tr>
+          <tr><td>Csoportos állítás (állító)</td><td>~90 perc / folyamat</td><td>45.000 Ft</td></tr>
+          <tr><td>Csoportos állítás (képviselő)</td><td>Egész napos</td><td>10.000 Ft</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cancel-notes reveal">
+      <div class="item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+        <span>Az egyéni időpontokat az ülés előtt legalább 24 órával díjmentesen lemondhatod vagy módosíthatod.</span>
+      </div>
+      <div class="item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
+        <span>24 órán belüli lemondás vagy meg nem jelenés esetén a fenntartott időpont miatt az ülés teljes díja fizetendő.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KAPCSOLAT ============ -->
+<section id="kapcsolat">
+  <div class="wrap">
+    <div class="contact-panel reveal">
+      <svg class="deco" width="120" height="190" style="top:-6%; left:-2%; opacity:.35;" viewBox="0 0 60 140"><use href="#leaf-cluster"/></svg>
+      <svg class="deco" width="120" height="190" style="bottom:-8%; right:-2%; opacity:.35; transform:scaleX(-1);" viewBox="0 0 60 140"><use href="#branch-thin"/></svg>
+      <p class="eyebrow" style="justify-content:center; color:var(--pink);">Kapcsolódjunk</p>
+      <h2>Készen állsz elindulni a belső utadon?</h2>
+      <p class="lede">Írj bátran, ha kérdésed van, vagy foglalj időpontot egy egyéni ülésre, állításra, illetve a következő csoportos alkalomra.</p>
+      <a class="btn btn-primary" href="mailto:rayburn.vanessa@gmail.com">
+        Időpontot foglalok
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <div class="contact-links">
+        <a href="mailto:rayburn.vanessa@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          rayburn.vanessa@gmail.com
+        </a>
+        <a href="tel:+36707431492">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.68 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0122 16.92z"/></svg>
+          +36 70 743 1492
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <span class="fname">Rayburn Vanessa</span>
+  Integrál szemléletű egyéni kísérő · ICON integrál család- és rendszerállító
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', false);
+  }));
+
+  // Reveal on scroll
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealEls = document.querySelectorAll('.reveal');
+  if(prefersReduced){
+    revealEls.forEach(el => el.classList.add('in'));
+  } else if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>
